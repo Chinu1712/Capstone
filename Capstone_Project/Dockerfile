@@ -1,18 +1,22 @@
-# Use the official Python base image
+# Use Python 3.9 to avoid version issues
 FROM python:3.9-slim
 
-
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy all files from your local directory to the container
+# Copy all files into the container
 COPY . /app
 
-# Install required Python packages
+# Upgrade pip and other tools
+RUN pip install --upgrade pip setuptools wheel
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port (same as Flask)
+# Expose port 5000 for Flask
+EXPOSE 5000
+ENV CUDA_VISIBLE_DEVICES=""
 EXPOSE 5000
 
-# Run the Flask app
+# Command to run your app
 CMD ["python", "app.py"]
